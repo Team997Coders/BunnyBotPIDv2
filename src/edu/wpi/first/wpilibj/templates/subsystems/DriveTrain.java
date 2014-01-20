@@ -7,12 +7,16 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc997.BunnyBot2013.RobotMap;
+import edu.wpi.first.wpilibj.templates.RobotMap;
+import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.templates.commands.TankDrive;
 
 /**
  *
@@ -20,12 +24,12 @@ import org.usfirst.frc997.BunnyBot2013.RobotMap;
  */
 public class DriveTrain extends PIDSubsystem {
     
-    Gyro driveGyro = RobotMap.driveGyro; 
-    SpeedController leftMotor = RobotMap.driveTrainLeftMotor;
-    SpeedController rightMotor = RobotMap.driveTrainRightMotor;
-    RobotDrive robotDrive21 = RobotMap.driveTrainRobotDrive21;
-    Encoder leftEncoder = RobotMap.driveTrainLeftEncoder;
-    Encoder rightEncoder = RobotMap.driveTrainRightEncoder;
+    Gyro driveGyro; 
+    SpeedController leftMotor;
+    SpeedController rightMotor;
+    Encoder leftEncoder; 
+    Encoder rightEncoder; 
+    AnalogChannel myUltrasonic;
     private static final double Kp = 0.002;
     private static final double Ki = 0.0;
     private static final double Kd = 0.001;
@@ -33,10 +37,24 @@ public class DriveTrain extends PIDSubsystem {
     // Initialize your subsystem here
     public DriveTrain() {
         super("DriveTrain", Kp, Ki, Kd);
+        driveGyro = new Gyro(RobotMap.gyroSlot);
+        leftMotor = new Victor(RobotMap.leftVictorSlot);
+        rightMotor = new Victor(RobotMap.rightVictorSlot);
+        leftEncoder = new Encoder(RobotMap.leftEncoderSlot1, RobotMap.leftEncoderSlot2);
+        rightEncoder = new Encoder(RobotMap.rightEncoderSlot1, RobotMap.rightEncoderSlot2);
+        myUltrasonic = new AnalogChannel(RobotMap.ultrasonicSlot);
+        
         setAbsoluteTolerance(10);
         getPIDController().setContinuous(false);
         LiveWindow.addActuator("DriveTrain", "PIDSubsystem Controller", getPIDController());
-        // Use these to get going:
+        leftEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);   
+        leftEncoder.start();
+        rightEncoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kDistance);
+        rightEncoder.start();
+        myUltrasonic.setAverageBits(8);
+        
+        
+// Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
         //                  to
         // enable() - Enables the PID controller.
@@ -80,10 +98,10 @@ public class DriveTrain extends PIDSubsystem {
   
     public double ReadSensor(){
         double distance;
-        distance = RobotMap.myUltrasonic.getVoltage()/.009766;
-        SmartDashboard.putNumber("raw distance ", RobotMap.myUltrasonic.getVoltage());
+        distance = myUltrasonic.getVoltage()/.009766;
+        SmartDashboard.putNumber("raw distance ", myUltrasonic.getVoltage());
         SmartDashboard.putNumber("Analog: ", distance);
-        return RobotMap.myUltrasonic.getVoltage();
+        return myUltrasonic.getVoltage();
     }
     
     public void ResetSensers(){

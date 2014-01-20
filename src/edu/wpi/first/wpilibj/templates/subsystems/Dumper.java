@@ -7,7 +7,8 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc997.BunnyBot2013.RobotMap;
+import edu.wpi.first.wpilibj.templates.RobotMap;
+
 
 /**
  *
@@ -16,8 +17,8 @@ import org.usfirst.frc997.BunnyBot2013.RobotMap;
 public class Dumper extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-     Solenoid extend = RobotMap.dumpersolenoidextend;
-     Solenoid retract = RobotMap.dumpersolenoidretract;
+     Solenoid extend = new Solenoid(RobotMap.extenddumpersolenoid);
+     Solenoid retract = new Solenoid(RobotMap.retreactdumpersolenoid);
  
 
     public void initDefaultCommand() {

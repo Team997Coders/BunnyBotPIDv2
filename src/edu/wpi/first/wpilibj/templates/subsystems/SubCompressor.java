@@ -7,7 +7,8 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc997.BunnyBot2013.RobotMap;
+import edu.wpi.first.wpilibj.templates.RobotMap;
+
 
 /**
  *
@@ -16,7 +17,7 @@ import org.usfirst.frc997.BunnyBot2013.RobotMap;
 public class SubCompressor extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
- Compressor mycompressor1 = RobotMap.mycompressor;
+ Compressor mycompressor1 = new Compressor(RobotMap.compressorpresureswitch,RobotMap.compressorSpike);
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

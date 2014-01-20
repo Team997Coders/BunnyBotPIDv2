@@ -7,7 +7,8 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc997.BunnyBot2013.RobotMap;
+import edu.wpi.first.wpilibj.templates.RobotMap;
+
 
 /**
  *
@@ -16,8 +17,8 @@ import org.usfirst.frc997.BunnyBot2013.RobotMap;
 public class Kicker extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    Solenoid extend = RobotMap.kickersolenoidextend;
-    Solenoid retract = RobotMap.kickersolenoidretract;
+    Solenoid extend = new Solenoid(RobotMap.kickerSolenoidExtend);
+    Solenoid retract = new Solenoid(RobotMap.kickerSolenoidRetract);
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
